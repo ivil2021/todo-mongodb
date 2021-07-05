@@ -1,40 +1,32 @@
 //global modules
-const express = require('express');
+const express = require("express");
 
-const fs = require('fs');
+// const fs = require("fs");
 
 //rest code...
 const router = express.Router();
 
-// Create readTodos function to read and parse
-// const readTodos = () => {
-//   const data = fs.readFileSync('./data/todos.json'); // Read file and put it to data
-//   let todos = JSON.parse(data); // Transform data and put it to todos
-
-//   return todos; // Return todos from a server to a client
-// };
-
 /////-----/////
 // const db = client.db('db_name')
-const TODOS_COLLECTION = client.db('dev_demo_db').createCollection('todos');
+const TODOS_COLLECTION = client.db("dev_demo_db").createCollection("todos");
 /////-----/////
 
 // Request for todos
-router.get('/todos', (req, res) => {
+router.get("/todos", (req, res) => {
   /////-----/////
-  TODOS_COLLECTION.find();
+  // TODOS_COLLECTION.find();
   /////-----/////
   // let todos = readTodos(); // Read a file and put it to the todos
   res.json(todos); // Send todos as a response from a server to a client
 });
 
 // Send some info to a server
-router.post('/todos', (req, res) => {
-  console.log('111222333');
+router.post("/todos", (req, res) => {
+  // console.log("111222333");
   /////-----/////
-  TODOS_COLLECTION.insertOne({
-    name: req.body.name,
-  });
+  // TODOS_COLLECTION.insertOne({
+  //   name: req.body.name,
+  // });
   /////-----/////
 
   // let { todos } = readTodos(); // Read a file and put it to the { todos } (key is todos and value is todos)
@@ -52,7 +44,7 @@ router.post('/todos', (req, res) => {
   res.json(todo); // response from a server
 });
 
-router.put('/todos/:id', (req, res) => {
+router.put("/todos/:id", (req, res) => {
   //update todo isDone value for a specific todo item (id: req.params.id)
   // let { todos } = readTodos(); // Read file and put it to { todos } (key is todos and value is todos)
 
@@ -67,7 +59,7 @@ router.put('/todos/:id', (req, res) => {
 });
 
 // Delete the certain element
-router.delete('/todos/:id', (req, res) => {
+router.delete("/todos/:id", (req, res) => {
   //remove todo item (id: req.params.id)
   // Read file and put it to { todos } (key is todos and value is todos)
   // let { todos } = readTodos();
@@ -84,7 +76,7 @@ router.delete('/todos/:id', (req, res) => {
 });
 
 // Clear all
-router.delete('/todos', (req, res) => {
+router.delete("/todos", (req, res) => {
   // Clear todos.json
 
   // Create data and init it with an empty array

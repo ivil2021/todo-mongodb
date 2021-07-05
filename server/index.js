@@ -1,21 +1,20 @@
 //global modules
-const express = require('express'); // ПОДКЛЮЧЕНИЕ ЭКСПРЕСС
-const bodyParser = require('body-parser');
-const cors = require('cors');
+const express = require("express"); // ПОДКЛЮЧЕНИЕ ЭКСПРЕСС
+const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const app = express(); // СОЗДАНИЕ ОБЪЕКТА НАШЕГО ПРИЛОЖЕНИЯ
 
-const db = require('./db');
-// const Todo = require('./db//models/todo');
-const Todo = require('./db/models/todo');
+const db = require("./db");
+const Todo = require("./db/models/todo");
 
 //local modules
-const config = require('./config.json')[process.env.NODE_ENV];
+const config = require("./config.json")[process.env.NODE_ENV];
 
 app.use(cors());
 
 //------------//
-app.get('/todos', async (req, res, next) => {
+app.get("/todos", async (req, res, next) => {
   try {
     // const todos = await todos.find();
     const todos = await Todo.find();
@@ -25,27 +24,9 @@ app.get('/todos', async (req, res, next) => {
   }
 });
 //------------//
-/////-----/////
-
-// // Function LIST_OF_TODOS_FROM_DB will return the list of todos from server
-// const LIST_OF_TODOS_FROM_DB = (req, res, next) => {
-//   Todo.find();
-//   console.log(Todo.find());
-//     .then((response) => {
-//       res.json({
-//         response,
-//       });
-//     })
-//     .catch((error) => {
-//       res.json({
-//         message: 'An error occured!',
-//       });
-//     });
-// };
-// /////-----/////
 
 //------------//
-app.get('/todos/:id', async (req, res) => {
+app.get("/todos/:id", async (req, res) => {
   try {
     const todo = await Todo.findOne({ _id: req.params.id });
     res.send(todo);
@@ -55,12 +36,8 @@ app.get('/todos/:id', async (req, res) => {
   }
 });
 
-/////-----/////
-// const db = client.db('db_name')
-//const TODOS_COLLECTION = client.db('dev_demo_db').createCollection('todos');
-/////-----/////
-
-app.post('/todos', bodyParser.json(), async (req, res, next) => {
+// Adding a new todo
+app.post("/todos", bodyParser.json(), async (req, res, next) => {
   try {
     const todo = new Todo({
       name: req.body.name,
@@ -76,7 +53,7 @@ app.post('/todos', bodyParser.json(), async (req, res, next) => {
 //------------//
 
 //------------//
-app.delete('/todos/:id', async (req, res) => {
+app.delete("/todos/:id", async (req, res) => {
   try {
     await Todo.deleteOne({ _id: req.params.id });
     res.status(204).send();
@@ -87,7 +64,7 @@ app.delete('/todos/:id', async (req, res) => {
 //------------//
 
 //------------//
-app.patch('/todos/:id', bodyParser.json(), async (req, res) => {
+app.patch("/todos/:id", bodyParser.json(), async (req, res) => {
   try {
     const todo = await Todo.findOne({ _id: req.params.id });
 
@@ -104,10 +81,9 @@ app.patch('/todos/:id', bodyParser.json(), async (req, res) => {
 });
 //------------//
 
-//------------//
 //The 404 Route (ALWAYS Keep this as the last route)
 app.use(function (req, res) {
-  res.status(404).send({ message: 'PAGE NOT FOUND!' });
+  res.status(404).send({ message: "PAGE NOT FOUND!" });
 });
 
 app.use((err, req, res, next) => {

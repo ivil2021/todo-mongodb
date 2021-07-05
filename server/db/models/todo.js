@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
@@ -7,5 +7,5 @@ const TodoSchema = new Schema({
   isDone: { type: Boolean, default: false },
 });
 
-//Export model
-module.exports = mongoose.model('Todo', TodoSchema);
+// Export model
+module.exports = mongoose.model("Todo", TodoSchema);
