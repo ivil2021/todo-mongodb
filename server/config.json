@@ -1,11 +1,14 @@
 {
   "development": {
-    "port": "3333"
+    "port": "3333",
+    "db": "mongodb://127.0.0.1:27017/dev_demo_db"
   },
   "production": {
-    "port": "4444"
+    "port": "4444",
+    "db": "mongodb://127.0.0.1:27017/prod_demo_db"
   },
   "test": {
-    "port": "5555"
+    "port": "5555",
+    "db": "mongodb://127.0.0.1:27017/test_demo_db"
   }
 }

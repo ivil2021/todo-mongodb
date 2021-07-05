@@ -1,8 +1,0 @@
-{
-  "development": {
-    "db": "mongodb://127.0.0.1:27017/dev_demo_db"
-  },
-  "production": {
-    "db": "mongodb://127.0.0.1:27017/prod_demo_db"
-  }
-}
