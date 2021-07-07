@@ -14,32 +14,27 @@ const config = require("./config.json")[process.env.NODE_ENV];
 app.use(cors());
 
 /////----- Reading the list of todos -----/////
-// app.get("/todos", async (req, res, next) => {
-// if (req.body.length !== 0) {
 app.get("/todos", bodyParser.json(), async (req, res) => {
   try {
-    // const todos = await todos.find();
     const todos = await Todo.find();
     res.send(todos);
   } catch (e) {
     res.status(500).send({ message: "Todo list cannot be read!" });
   }
 });
-// }
 /////----- Reading the list of todos -----/////
 
 /////----- Reading the certain todo -----/////
-// if (req.body.length !== 0) {
 app.get("/todos/:id", bodyParser.json(), async (req, res) => {
   try {
     const todo = await Todo.findOne({ _id: req.params.id });
+
     res.send(todo);
   } catch (e) {
     console.log(e);
     res.status(404).send({ message: "Todo doesn't exist!" });
   }
 });
-// }
 /////----- Reading the certain todo -----/////
 
 /////----- Adding a new todo -----/////
@@ -59,16 +54,6 @@ app.post("/todos", bodyParser.json(), async (req, res, next) => {
 /////----- Adding a new todo -----/////
 
 /////----- Deleting the certain todo by it's id -----/////
-/////-----/////
-// app.delete("/todos/:id", async (req, res) => {
-//   try {
-//     await Todo.deleteOne({ _id: req.params.id });
-//     res.status(204).send();
-//   } catch (e) {
-//     res.status(404).send({ message: "Todo doesn't exist!" });
-//   }
-// });
-/////-----/////
 app.delete("/todos", bodyParser.json(), async (req, res) => {
   if (req.body.length !== 0) {
     try {
@@ -100,23 +85,6 @@ app.delete("/todos", bodyParser.json(), async (req, res) => {
 /////----- Deleting the certain todo by it's id -----/////
 
 /////----- Updating the certain todo by it's id -----/////
-// app.patch("/todos/:id", bodyParser.json(), async (req, res) => {
-//   try {
-//     const todo = await Todo.findOne({ _id: req.params.id });
-
-//     if (req.body.title) {
-//       todo.title = req.body.title;
-//       await todo.save();
-//     }
-
-//     res.send(todo);
-//   } catch (e) {
-//     console.log(e);
-//     res.status(404).send({ message: "Todo doesn't exist!" });
-//   }
-// });
-// app.patch("/todos/:id", bodyParser.json(), async (req, res) => {
-
 app.patch("/todos/:id", bodyParser.json(), async (req, res) => {
   try {
     const todo = await Todo.findOne({ _id: req.params.id });

@@ -30,7 +30,7 @@ const serverContent = fetch("http://localhost:3333/todos")
   });
 
 function createTodoDOMElement(testTodo) {
-  // Create a todo item DOM element
+  // Creating a todo item DOM element
   let todoDOMElement = document.createElement("li");
   todoDOMElement.className = "li";
   todoDOMElement.id = testTodo.id;
@@ -40,17 +40,17 @@ function createTodoDOMElement(testTodo) {
     todoDOMElement.classList.add("li-completed");
   }
 
-  // Look at mouse events / target / path / parent node
+  // Looking at mouse events / target / path / parent node
   let delBtnDOMElement = document.createElement("button"); // Create Del button at the end of the task
   delBtnDOMElement.className = "btn-delete-todo"; // Attach class to the button
   delBtnDOMElement.textContent = "Del"; // Add text Del to the button
 
-  // Delete todo from todoList by pressing Del button
+  // Del button. Deleting the certain todo from todoList by pressing Del button
   delBtnDOMElement.addEventListener("click", (e) => {
     e.stopPropagation();
 
+    // Confirmation window for deleting todos
     if (confirm("Are you sure?")) {
-      // Confirmation window for deleting todos
       let id = e.target.parentElement.id; // Getting an id of the parent element
       todoList.removeElement(id); // Removing from data
       document.getElementById(id).remove(); // Removing from html
@@ -65,14 +65,12 @@ function createTodoDOMElement(testTodo) {
       }).then(() => {
         todosArrLengthUpdate(todoList);
       });
-
       todosArrLengthUpdate(todoList);
     }
-
-    // l = todosArr.length;
   });
 
-  todoDOMElement.appendChild(delBtnDOMElement); // Add Del button to the list element
+  // Adding Del button to the list element
+  todoDOMElement.appendChild(delBtnDOMElement);
 
   // Toggle class completed
   todoDOMElement.addEventListener("click", (e) => {
@@ -83,7 +81,7 @@ function createTodoDOMElement(testTodo) {
       method: "PATCH",
       body: JSON.stringify({ isDone: todo.isDone }),
       headers: {
-        "Content-Type": "application/json", // It's necessary to point out the certain type of the text "application/json"
+        "Content-Type": "application/json",
       },
     }).then((res) => {
       e.target.classList.toggle("li-completed");
@@ -95,16 +93,13 @@ function createTodoDOMElement(testTodo) {
   return todoDOMElement;
 }
 
-// Work with Add button event
+// Add button event
 addBtn.addEventListener("click", (e) => {
-  // Update data structures
-  let testTodo = new Todo(input.value);
-
   fetch("http://localhost:3333/todos", {
     method: "POST",
-    body: JSON.stringify(testTodo),
+    body: JSON.stringify({ name: input.value }),
     headers: {
-      "Content-Type": "application/json", // It's necessary to point out the certain type of the text "application/json"
+      "Content-Type": "application/json",
     },
   })
     .then((data) => {
@@ -112,18 +107,16 @@ addBtn.addEventListener("click", (e) => {
       return data.json();
     })
     .then((res) => {
-      const todo = new Todo(res.name, res.isDone);
-      // const todo = new Todo(res.name, res.isDone, res.id);
+      const todo = new Todo(res.name, res._id, res.isDone);
       console.log(res);
-      // console.log(res._id);
       todoList.addElement(todo);
 
-      // Reset input
+      // Clearing our input field
       input.value = "";
 
       let todoDOMElement = createTodoDOMElement(todo);
 
-      // Add todo item DOM element (with events attached) in to todo list DOM element
+      // Adding a todo item DOM element (with events attached) to todo list DOM element
       todoListContainer.appendChild(todoDOMElement);
 
       todosArrLengthUpdate(todoList);
@@ -142,13 +135,13 @@ function toggleTodosVisibility(visibleTodosIds) {
   });
 }
 
-// Work with Active button event
+// Active button event
 document.querySelector(".activeBtn").addEventListener("click", (e) => {
   let visibleTodosIds = todoList.filterByStatus(ACTIVE).map((item) => item.id);
   toggleTodosVisibility(visibleTodosIds);
 });
 
-// Work with Completed button event
+// Completed button event
 document.querySelector(".completedBtn").addEventListener("click", (e) => {
   let visibleTodosIds = todoList
     .filterByStatus(COMPLETED)
@@ -156,26 +149,23 @@ document.querySelector(".completedBtn").addEventListener("click", (e) => {
   toggleTodosVisibility(visibleTodosIds);
 });
 
-// Work with All button event
+// All button event
 document.querySelector(".AllBtn").addEventListener("click", (e) => {
   let visibleTodosIds = todoList.filterByStatus(ALL).map((item) => item.id);
   toggleTodosVisibility(visibleTodosIds);
 });
 
-// Work with Clear All button event
-// Use a querySelector with .clearAllBtn class to make sure that we work with the Clear All button
+// Clear All button event
+// Using a querySelector with .clearAllBtn class to make sure that we work with the Clear All button
 document.querySelector(".clearAllBtn").addEventListener("click", (e) => {
   if (confirm("Are you sure?")) {
-    // Confirmation window for deleting todos
     todoList.clear();
-    // localStorage.clear("todo");
     todoListContainer.innerHTML = "";
 
-    fetch("http://localhost:3333/todos/", {
+    fetch("http://localhost:3333/todos", {
       method: "DELETE",
-      body: JSON.stringify(todoList),
+      body: JSON.stringify([]),
       headers: {
-        // It's necessary to point out the certain type of the text "application/json"
         "Content-Type": "application/json",
       },
     }).then(() => {
